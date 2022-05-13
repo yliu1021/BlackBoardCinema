@@ -1,58 +1,143 @@
 import React, { useState } from "react";
 
-class Form extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { value: '', quality: 0, entertainment: 0 };
+function Form() {
+    const [name, setName] = useState('')
+    const [title, setTitle] = useState('')
+    const [entertainment, setEntertainment] = useState(0)
+    const [quality, setQuality] = useState(0)
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+    function handleSubmit(event) {
+        //Firebase
+        
+        alert('The movie "' + title + '" was reviewed by "' + name + '" with a score of ' + entertainment)
+        event.preventDefault()
     }
 
-    handleChange(event) {
-        this.setState({ 
-            value: event.target.value,
-            quality: event.target.quality,
-            entertainment: event.target.entertainment
-        });
-    }
+    return (
+        <div className="container">
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <input
+                        placeholder="What's your name?"
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)} />
+                </div>
+                <div>
+                    <input
+                        placeholder="What film are you reviewing?"
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)} />
+                </div>
 
-    handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.value);
-        event.preventDefault();
-    }
+                <div>
+                    <p>
+                        Entertainment Rating: {entertainment}
+                    </p>
+                    <input
+                        type="range"
+                        min="-10"
+                        max="10"
+                        step="1"
+                        value={entertainment}
+                        onChange={(e) => setEntertainment(e.target.value)} />
+                </div>
+                
+                <div>
+                    <p>
+                        Quality Rating: {quality}
+                    </p>
+                    <input
+                        type="range"
+                        min="-10"
+                        max="10"
+                        step="1"
+                        value={quality}
+                        onChange={(e) => setQuality(e.target.value)} />
+                </div>
 
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <div class="auto">
-                    <label>
-                        Movie Title:
-                        <input type="text" value={this.state.value} onChange={this.handleChange} />
-                    </label>
-                </div>
-                <div class="col-50">
-                    <label>
-                            Date Viewed:
-                        <input type="text" value={this.state.value} onChange={this.handleChange} />
-                    </label>
-                </div>
-                <div class="col-75">
-                    <label>
-                            Entertainment Rating:
-                        <input type="text" value={this.state.value} onChange={this.handleChange} />
-                    </label>
-                </div>
-                <div class="col-25">
-                    <label>
-                            Quality Rating:
-                        <input type="text" value={this.state.value} onChange={this.handleChange} />
-                    </label>
-                </div>
-                <input type="submit" value="Submit" />
+                <button type="submit">
+                    Submit
+                </button>
             </form>
-        );
-    }
+        </div>
+    )
 }
+
+// class Form extends React.Component {
+//     constructor(props) {
+//         super(props);
+//         this.state = { name: '', title: '', entertainment: 0, isMousedOver: false }
+
+//         // this.handleChange = this.handleChange.bind(this);
+//         this.handleSubmit = this.handleSubmit.bind(this);
+//         this.handleMouseOver = this.handleMouseOver.bind(this);
+//     }
+
+//     // handleChange(event) {
+//     //     this.setState({ 
+//     //         name: event.target.name,
+//     //         title: event.target.title,
+//     //         entertainment: event.target.entertainment
+//     //     });
+//     // }
+
+//     handleSubmit(event) {
+//         alert('The movie "' + this.state.title + '" was reviewed by "' + this.state.name + '" with a score of ' + this.state.entertainment);
+//         event.preventDefault();
+//     }
+
+//     handleMouseOver() {
+//         this.setState({ 
+//             isMousedOver: !this.state.isMousedOver
+//         });
+//     }
+
+//     render() {
+//         return (
+//             <div className="container">
+//                 <form onSubmit={this.handleSubmit}>
+//                     <div>
+//                         <input 
+//                         placeholder="What's your name?" 
+//                         type="text"
+//                         value={this.state.name}
+//                         onChange={(e) => {this.setState({...this.state, name : e.target.value})}} 
+//                         />
+//                     </div>
+//                     <div>
+//                         <input 
+//                         placeholder="What film are you reviewing?" 
+//                         type="text" 
+//                         value={this.state.title} 
+//                         onChange={(e) => {this.setState({title : e.target.value, ...this.state})}} />
+//                     </div>
+//                     {/* <div>
+//                         <p>
+//                             Entertainment Rating: {this.state.entertainment} 
+//                         </p>
+//                         <input 
+//                         type="range" 
+//                         min="-10" 
+//                         max="10" 
+//                         step="1"
+//                         entertainment={this.state.entertainment}
+//                         onChange={this.handleChange} />
+//                     </div> */}
+
+//                     <button
+//                         style={{ backgroundColor: this.state.isMousedOver ? "Green" : "white" }}
+//                         type="submit"
+//                         onMouseOver={this.handleMouseOver}
+//                         onMouseOut={this.handleMouseOver}
+//                     >
+//                         Submit
+//                     </button>
+//                 </form>
+//             </div>
+//         );
+//     }
+//}
 
 export default Form;
