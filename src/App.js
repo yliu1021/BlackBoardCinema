@@ -1,9 +1,10 @@
 import MainScreen from "./MainScreen";
+import Form from "./Form";
 
 function App() {
   return (
     <div>
-      <MainScreen name="hello" />
+      <Form />
     </div>
   );
 }
