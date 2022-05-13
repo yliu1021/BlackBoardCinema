@@ -1,12 +1,21 @@
 import React, { useState } from "react";
 import { sendRating } from "./movies"
 import { Timestamp } from "firebase/firestore";
+import MoviesView from "./MoviesView";
 
 function Form() {
     const [name, setName] = useState('')
     const [title, setTitle] = useState('')
     const [entertainment, setEntertainment] = useState(0)
     const [quality, setQuality] = useState(0)
+    const [movies, setMovies] = useState(null);
+
+    let moviesView;
+    if (movies) {
+        moviesView = <MoviesView movies={movies} />;
+    } else {
+        moviesView = <p>Hit Search For a Movie</p>;
+    }
 
     function handleSubmit(event) {
         //Firebase
@@ -23,8 +32,35 @@ function Form() {
         event.preventDefault()
     }
 
+    function handleTitleSearch(e) {
+        // imdb
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+        fetch('https://imdb-api.com/en/API/Search/k_u4bk3o8g/' + encodeURIComponent(title), requestOptions)
+            .then(response => response.json())
+            .then(result => setMovies(result["results"]))
+            .catch(error => console.log('error', error));
+        e.preventDefault()
+    }
+
     return (
         <div className="container">
+            <form onSubmit={handleTitleSearch}>
+                <div>
+                    <input
+                        placeholder="What film are you reviewing?"
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}/>
+                </div>
+                <button type="submit">
+                    Search For a Movie
+                </button>
+                {moviesView}    
+            </form>
+
             <form onSubmit={handleSubmit}>
                 <div>
                     <input
@@ -33,14 +69,7 @@ function Form() {
                         value={name}
                         onChange={(e) => setName(e.target.value)} />
                 </div>
-                <div>
-                    <input
-                        placeholder="What film are you reviewing?"
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)} />
-                </div>
-
+                
                 <div>
                     <p>
                         Entertainment Rating: {entertainment}
