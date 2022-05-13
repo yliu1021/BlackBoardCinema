@@ -1,7 +1,9 @@
+import MainScreen from "./MainScreen";
+
 function App() {
   return (
-    <div className="App">
-      <p>Hewwo World!</p>
+    <div>
+      <MainScreen name="hello" />
     </div>
   );
 }
