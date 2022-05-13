@@ -1,26 +1,23 @@
 import { useState } from "react";
-import { getMovies } from "./movies";
+import { subscribeRatings } from "./movies";
+import RatingsView from "./RatingsView";
 
 function MainScreen(props) {
-  const [movies, setMovies] = useState(null);
+  const [ratings, setRatings] = useState(null);
 
-  getMovies().then(setMovies);
+  subscribeRatings(setRatings);
 
-  let moviesView;
-  if (movies) {
-    moviesView = movies.map(movie => {
-      return <li key={movie.id}>
-        <p>{movie.title}</p>
-      </li>;
-    });
+  let ratingsView;
+  if (ratings) {
+    ratingsView = <RatingsView ratings={ratings} />;
   } else {
-    moviesView = <p>Loading...</p>;
+    ratingsView = <p>Loading...</p>;
   }
 
   return (
     <div>
       <h1>Welcome {props.name}</h1>
-      {moviesView}
+      {ratingsView}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, onSnapshot } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -12,25 +12,23 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const ratings = collection(db, "ratings")
+const ratingsCollection = collection(db, "ratings");
 
-export async function getMovies() {
-  const docs = await getDocs(collection(db, "movies"));
-  let movies = [];
-  docs.forEach(snapshot => {
-    const movie = snapshot.data();
-    movies.push({
-      id: snapshot.id,
-      ...movie
+export function subscribeRatings(callback) {
+  const unsubscribe = onSnapshot(ratingsCollection, (collectionSnapshot) => {
+    const ratings = [];
+    collectionSnapshot.forEach(docSnapshot => {
+      const rating = docSnapshot.data();
+      ratings.push({
+        id: docSnapshot.id,
+        ...rating
+      });
     });
+    callback(ratings);
   });
-  return movies
+  return unsubscribe;
 }
 
-// Add a new document in collection "cities"
-
-
 export async function sendRating(rating) {
-  const docRef = await addDoc(collection(db, "ratings"), rating);
-  console.log("Document written with ID: ", docRef.id);
+  await addDoc(ratingsCollection, rating);
 }
