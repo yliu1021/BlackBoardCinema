@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { sendRating } from "./movies"
+import { Timestamp } from "firebase/firestore";
 
 function Form() {
     const [name, setName] = useState('')
@@ -8,8 +10,16 @@ function Form() {
 
     function handleSubmit(event) {
         //Firebase
-        
-        alert('The movie "' + title + '" was reviewed by "' + name + '" with a score of ' + entertainment)
+        sendRating({
+            timestamp: Timestamp.now().toDate(),
+            reviewer: name,
+            title: title,
+            metrics: {
+                entertainment: entertainment,
+                quality: quality
+            }
+        })
+        alert('The movie "' + title + '" was reviewed by "' + name + '" with a score of ' + entertainment + '&' + quality)
         event.preventDefault()
     }
 

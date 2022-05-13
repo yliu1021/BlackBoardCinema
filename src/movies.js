@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -12,6 +12,7 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const ratings = collection(db, "ratings")
 
 export async function getMovies() {
   const docs = await getDocs(collection(db, "movies"));
@@ -24,4 +25,12 @@ export async function getMovies() {
     });
   });
   return movies
+}
+
+// Add a new document in collection "cities"
+
+
+export async function sendRating(rating) {
+  const docRef = await addDoc(collection(db, "ratings"), rating);
+  console.log("Document written with ID: ", docRef.id);
 }
