@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { subscribeRatings } from "./movies";
 import RatingsView from "./RatingsView";
+import RatingsChartView from "./RatingsChart";
 
-import { Typography, Skeleton, List, ListItem, Box, AppBar, IconButton, Toolbar } from "@mui/material";
+import { Typography, Skeleton, List, ListItem, Box, AppBar, IconButton, Toolbar, Stack } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
@@ -40,9 +41,12 @@ export default function MainScreen(props) {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Box maxWidth="35%">
-        {ratingsView}
-      </Box>
+      <Stack direction="row" spacing={2}>
+        <Box maxWidth="35%">
+          {ratingsView}
+        </Box>
+        <RatingsChartView ratings={ratings} />
+      </Stack>
     </Box>
   );
 }
