@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { sendRating } from "./movies"
 import { Timestamp } from "firebase/firestore";
 import MoviesView from "./MoviesView";
+import Button from '@mui/material/Button';
 
 function Form() {
     const [name, setName] = useState('')
@@ -47,19 +48,15 @@ function Form() {
 
     return (
         <div className="container">
-            <form onSubmit={handleTitleSearch}>
-                <div>
-                    <input
-                        placeholder="What film are you reviewing?"
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}/>
-                </div>
-                <button type="submit">
-                    Search For a Movie
-                </button>
-                {moviesView}    
-            </form>
+            <div>
+                <input
+                    placeholder="What film are you reviewing?"
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}/>
+            </div>
+            <Button onClick={handleTitleSearch} variant="contained">Search For a Movie</Button>
+            {moviesView}    
 
             <form onSubmit={handleSubmit}>
                 <div>
