@@ -41,11 +41,13 @@ export default function MainScreen(props) {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Stack direction="row" spacing={2}>
-        <Box maxWidth="35%">
+      <Stack direction="row" spacing={2} minWidth="100%" maxWidth={false}>
+        <Box maxWidth="50%">
           {ratingsView}
         </Box>
-        <RatingsChartView ratings={ratings} />
+        <Box sx={{ flexGrow: 1 }} padding="10px">
+          <RatingsChartView ratings={ratings} />
+        </Box>
       </Stack>
     </Box>
   );

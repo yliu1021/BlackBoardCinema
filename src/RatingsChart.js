@@ -26,8 +26,8 @@ export default function RatingsChartView(props) {
     <Chart
       options={options}
       series={series}
-      width="400px"
-      height="400px"
+      width="100%"
+      // height=""
       type="scatter"
     />
   )
