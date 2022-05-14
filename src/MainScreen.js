@@ -2,9 +2,11 @@ import { useState } from "react";
 import { subscribeRatings } from "./movies";
 import RatingsView from "./RatingsView";
 
-import { Typography, Skeleton, List, ListItem } from "@mui/material";
+import { Typography, Skeleton, List, ListItem, Box, AppBar, IconButton, Toolbar } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
-function MainScreen(props) {
+export default function MainScreen(props) {
   const [ratings, setRatings] = useState(null);
 
   subscribeRatings(setRatings);
@@ -15,25 +17,32 @@ function MainScreen(props) {
   } else {
     ratingsView = (
       <List>
-        <ListItem>
-          <Skeleton variant="rectangular" width={"20%"} />
+        <ListItem key="1">
+          <Skeleton variant="rectangular" />
         </ListItem>
-        <ListItem>
-          <Skeleton variant="rectangular" width={"20%"} />
+        <ListItem key="2">
+          <Skeleton variant="rectangular" />
         </ListItem>
-        <ListItem>
-          <Skeleton variant="rectangular" width={"20%"} />
+        <ListItem key="3">
+          <Skeleton variant="rectangular" />
         </ListItem>
       </List>
     );
   }
 
   return (
-    <div>
-      <Typography component="h1" variant="h2">Welcome {props.name}</Typography>
-      {ratingsView}
-    </div>
+    <Box>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>Welcome {props.name}</Typography>
+          <IconButton color="inherit" aria-label="delete" component={Link} to="/review">
+            <Add />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <Box maxWidth="35%">
+        {ratingsView}
+      </Box>
+    </Box>
   );
 }
-
-export default MainScreen;
