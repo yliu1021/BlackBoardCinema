@@ -24,6 +24,9 @@ export function subscribeRatings(callback) {
         ...rating
       });
     });
+    ratings.sort((ratingA, ratingB) => {
+      return ratingA.timestamp - ratingB.timestamp
+    })
     callback(ratings);
   });
   return unsubscribe;
