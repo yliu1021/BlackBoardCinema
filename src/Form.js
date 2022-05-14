@@ -3,9 +3,9 @@ import { sendRating } from "./movies"
 import { Timestamp } from "firebase/firestore";
 import MoviesView from "./MoviesDialogView";
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
-function Form() {
+function Form(props) {
     const [name, setName] = useState('')
     const [query, setQuery] = useState('')
     const [entertainment, setEntertainment] = useState(0)
@@ -13,7 +13,10 @@ function Form() {
     const [movies, setMovies] = useState(null);
     const [selectedMovie, setSelectedMovie] = useState(null)
     var display_title = ''
-    
+    var display_image = null
+    const navigate = useNavigate()
+
+
     let moviesView;
     if (movies) {
         moviesView = <MoviesView movies={movies} onClose={setSelectedMovie} />; //onClose={selectedMovie => setTitle(selectedMovie)}
@@ -22,12 +25,15 @@ function Form() {
     }
 
     if (selectedMovie) {
+        display_image = <img src={selectedMovie.image} alt="selected movie poster" height="200"></img>
         display_title = selectedMovie.title
     } else {
+        display_image = null
         display_title = ''
     }
     function handleSubmit(event) {
         //Firebase
+        event.preventDefault()
         sendRating({
             timestamp: Timestamp.now().toDate(),
             reviewer: name,
@@ -39,8 +45,11 @@ function Form() {
                 quality: parseFloat(quality)
             }
         })
+        .then(() => {
+            navigate('/')
+        })
         alert('Your review for "' + selectedMovie.title + '" was submitted by with a score of ' + entertainment + '&' + quality)
-        event.preventDefault()
+        
     }
 
     function handleTitleSearch(e) {
@@ -65,7 +74,10 @@ function Form() {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                 />
-                <p>{display_title}</p>
+                <p>
+                    {display_title}
+                    {display_image}
+                </p>
                 
             </div>
               
@@ -75,45 +87,45 @@ function Form() {
             
             {moviesView}    
 
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <input
-                        placeholder="What's your name?"
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)} />
-                </div>
-                
-                <div>
-                    <p>
-                        Entertainment Rating: {entertainment}
-                    </p>
-                    <input
-                        type="range"
-                        min="-10"
-                        max="10"
-                        step="1"
-                        value={entertainment}
-                        onChange={(e) => setEntertainment(e.target.value)} />
-                </div>
+            
+            <div>
+                <input
+                    placeholder="What's your name?"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)} />
+            </div>
+            
+            <div>
+                <p>
+                    Entertainment Rating: {entertainment}
+                </p>
+                <input
+                    type="range"
+                    min="-10"
+                    max="10"
+                    step="1"
+                    value={entertainment}
+                    onChange={(e) => setEntertainment(e.target.value)} />
+            </div>
 
-                <div>
-                    <p>
-                        Quality Rating: {quality}
-                    </p>
-                    <input
-                        type="range"
-                        min="-10"
-                        max="10"
-                        step="1"
-                        value={quality}
-                        onChange={(e) => setQuality(e.target.value)} />
-                </div>
+            <div>
+                <p>
+                    Quality Rating: {quality}
+                </p>
+                <input
+                    type="range"
+                    min="-10"
+                    max="10"
+                    step="1"
+                    value={quality}
+                    onChange={(e) => setQuality(e.target.value)} />
+            </div>
 
-                <Button component={Link} to="/" type="submit">
-                    Submit
-                </Button>
-            </form>
+            <Button onClick={handleSubmit}>
+                Submit
+            </Button>
+        
         </div>
     )
 }
