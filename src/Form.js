@@ -3,6 +3,7 @@ import { sendRating } from "./movies"
 import { Timestamp } from "firebase/firestore";
 import MoviesView from "./MoviesDialogView";
 import Button from '@mui/material/Button';
+import { Link } from "react-router-dom";
 
 function Form() {
     const [name, setName] = useState('')
@@ -109,9 +110,9 @@ function Form() {
                         onChange={(e) => setQuality(e.target.value)} />
                 </div>
 
-                <button type="submit">
+                <Button component={Link} to="/" type="submit">
                     Submit
-                </button>
+                </Button>
             </form>
         </div>
     )
